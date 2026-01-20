@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mad Max RP - UI</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Эффекты постобработки -->
+    <div class="overlay"></div>
+    <div class="scanlines"></div>
+    
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- HUD - Основной интерфейс -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div id="hud" class="hud">
+        <!-- Левая панель: Здоровье, Радиация -->
+        <div class="hud-left">
+            <div class="stat-container">
+                <div class="stat-label">HP</div>
+                <div class="progress-bar">
+                    <div class="progress-fill health" id="health-bar" style="width: 100%"></div>
+                </div>
+                <div class="stat-value" id="health-value">100%</div>
+            </div>
+            
+            <div class="stat-container">
+                <div class="stat-label">RAD</div>
+                <div class="progress-bar">
+                    <div class="progress-fill radiation" id="radiation-bar" style="width: 0%"></div>
+                </div>
+                <div class="stat-value" id="radiation-value">0%</div>
+            </div>
+        </div>
+        
+        <!-- Правая панель: Статы -->
+        <div class="hud-right">
+            <div class="stat-icon-container">
+                <span class="stat-icon">🎒</span>
+                <span class="stat-text" id="weight-value">0/50</span>
+            </div>
+            
+            <div class="stat-icon-container">
+                <span class="stat-icon">💧</span>
+                <span class="stat-text" id="thirst-value">100%</span>
+            </div>
+            
+            <div class="stat-icon-container">
+                <span class="stat-icon">🍖</span>
+                <span class="stat-text" id="hunger-value">100%</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- Уведомления -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div id="notifications" class="notifications"></div>
+    
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- Модальные окна (Инвентарь, Крафт и т.д.) -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div id="modal-container" class="modal-container" style="display: none;">
+        <!-- Динамически генерируемые меню -->
+        <div id="inventory-menu" class="inventory-container" style="display: none;">
+            <div class="inventory-header">
+                <div class="inventory-title">РЮКЗАК ВЫЖИВШЕГО</div>
+                <div class="inventory-weight" id="inv-weight-text">ВЕС: 0.0/50.0 кг</div>
+            </div>
+            
+            <div class="inventory-main">
+                <div class="inventory-grid" id="inv-grid">
+                    <!-- Предметы будут здесь -->
+                </div>
+                
+                <div class="inventory-info" id="inv-info">
+                    <div class="info-empty">ВЫБЕРИТЕ ПРЕДМЕТ</div>
+                    <!-- Информация о предмете -->
+                </div>
+            </div>
+            
+            <div class="inventory-footer">
+                <button class="btn btn-secondary" onclick="sendCallback('close')">ЗАКРЫТЬ [ESC]</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

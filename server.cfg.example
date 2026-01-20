@@ -1,0 +1,34 @@
+# Razlom — FiveM Server Configuration (Example)
+# Скопируйте в server.cfg и замените значения
+
+## Основные настройки
+sv_hostname "Razlom | Invasion Survival RP"
+sv_maxclients 64
+
+## Сетевые настройки
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+
+## Лицензионные ключи (ОБЯЗАТЕЛЬНО ЗАМЕНИТЬ!)
+sv_licenseKey "YOUR_LICENSE_KEY_HERE"
+steam_webApiKey "YOUR_STEAM_API_KEY_HERE"
+
+## База данных (НАСТРОИТЬ!)
+set mysql_connection_string "mysql://username:password@localhost/database?charset=utf8mb4"
+
+## Ресурсы
+ensure oxmysql
+ensure apo_core
+ensure apo_player
+ensure apo_inventory
+ensure apo_ui
+ensure apo_invasion
+ensure apo_progression
+ensure apo_signal
+
+## OneSync
+set onesync on
+
+## Игровые настройки
+set sv_enforceGameBuild 2699
+

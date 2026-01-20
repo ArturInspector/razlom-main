@@ -1,0 +1,91 @@
+/* ════════════════════════════════════════════════════════════
+   CSS Variables - Переменные из Design System
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ══════════════════════════════════════════════════════
+       Цвета
+       ══════════════════════════════════════════════════════ */
+    
+    /* Фон и поверхности */
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #1a1512;
+    --bg-elevated: #241e1a;
+    --bg-overlay: rgba(0, 0, 0, 0.85);
+    
+    /* Акценты */
+    --accent-danger: #912c22;
+    --accent-rust: #7a3a2e;
+    --accent-warning: #c28a4e;
+    --accent-sand: #8c7355;
+    --accent-success: #4d5a3a;
+    --accent-info: #4a5a6e;
+    --accent-chrome: #b0b0b0;
+    
+    /* Текст */
+    --text-primary: #d4d4d4;
+    --text-secondary: #8a7b6a;
+    --text-disabled: #4a3f35;
+    
+    /* Границы */
+    --border-color: #3a2e26;
+    --border-accent: #5c4a3e;
+    --border-damaged: 2px solid var(--border-accent);
+    
+    /* Градиенты (более грязные) */
+    --gradient-danger: linear-gradient(135deg, #912c22 0%, #5a1a15 100%);
+    --gradient-warning: linear-gradient(135deg, #c28a4e 0%, #8c5a2e 100%);
+    --gradient-dark: linear-gradient(180deg, #1a1512 0%, #0d0d0d 100%);
+    --gradient-metal: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    
+    /* ══════════════════════════════════════════════════════
+       Типографика
+       ══════════════════════════════════════════════════════ */
+    
+    --font-primary: 'Roboto Mono', 'Consolas', monospace;
+    --font-heading: 'Bebas Neue', 'Impact', sans-serif;
+    --font-numbers: 'Roboto Mono', monospace;
+    
+    --text-xs: 10px;
+    --text-sm: 12px;
+    --text-base: 14px;
+    --text-lg: 16px;
+    --text-xl: 20px;
+    --text-2xl: 28px;
+    
+    /* ══════════════════════════════════════════════════════
+       Отступы
+       ══════════════════════════════════════════════════════ */
+    
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* ══════════════════════════════════════════════════════
+       Тени
+       ══════════════════════════════════════════════════════ */
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
+    
+    /* ══════════════════════════════════════════════════════
+       Переходы
+       ══════════════════════════════════════════════════════ */
+    
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* ══════════════════════════════════════════════════════
+       Z-индексы
+       ══════════════════════════════════════════════════════ */
+    
+    --z-hud: 100;
+    --z-notifications: 200;
+    --z-modal: 300;
+    --z-tooltip: 400;
+}
+

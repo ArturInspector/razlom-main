@@ -1,0 +1,8 @@
+cache/
+server.cfg
+*.log
+*.zip
+alpine/
+run.sh
+FXServer
+
