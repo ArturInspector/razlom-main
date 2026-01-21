@@ -25,8 +25,9 @@ end)
 
 -- Маркеры узлов
 CreateThread(function()
+    Wait(5000) -- Даем время загрузиться
     while true do
-        Wait(0)
+        Wait(500) -- Снижаем частоту с 60fps до 2 раза в секунду
         local playerCoords = GetEntityCoords(PlayerPedId())
         
         for _, node in ipairs(Config.Nodes) do

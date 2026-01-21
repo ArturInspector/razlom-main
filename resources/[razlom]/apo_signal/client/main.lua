@@ -5,8 +5,9 @@ end)
 
 -- Отслеживание выстрелов
 CreateThread(function()
+    Wait(5000) -- Даем время загрузиться
     while true do
-        Wait(0)
+        Wait(100) -- Проверяем выстрелы каждые 100мс
         
         local ped = PlayerPedId()
         

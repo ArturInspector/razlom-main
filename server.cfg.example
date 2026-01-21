@@ -4,6 +4,8 @@
 ## Основные настройки
 sv_hostname "Razlom | Invasion Survival RP"
 sv_maxclients 64
+sets sv_projectName "Razlom"
+sets sv_projectDesc "Post-apocalyptic survival with invasion mechanics"
 
 ## Сетевые настройки
 endpoint_add_tcp "0.0.0.0:30120"
@@ -11,24 +13,28 @@ endpoint_add_udp "0.0.0.0:30120"
 
 ## Лицензионные ключи (ОБЯЗАТЕЛЬНО ЗАМЕНИТЬ!)
 sv_licenseKey "YOUR_LICENSE_KEY_HERE"
-steam_webApiKey "YOUR_STEAM_API_KEY_HERE"
 
 ## База данных (НАСТРОИТЬ!)
-set mysql_connection_string "mysql://username:password@localhost/database?charset=utf8mb4"
+setr mysql_connection_string "mysql://username:password@localhost/database?charset=utf8mb4"
 
-## Ресурсы
+## OneSync
+set onesync on
+
+## Базовые ресурсы FiveM (обязательные)
+ensure mapmanager
+ensure chat
+ensure spawnmanager
+ensure sessionmanager
+ensure basic-gamemode
+ensure hardcap
+
+## Razlom ресурсы
 ensure oxmysql
-ensure apo_core
-ensure apo_player
-ensure apo_inventory
 ensure apo_ui
 ensure apo_invasion
 ensure apo_progression
 ensure apo_signal
 
-## OneSync
-set onesync on
-
-## Игровые настройки
-set sv_enforceGameBuild 2699
+## Для тестирования (опционально)
+# ensure test_spawn
 
