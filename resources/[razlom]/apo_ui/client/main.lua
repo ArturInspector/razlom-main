@@ -23,6 +23,42 @@ Citizen.CreateThread(function()
 end)
 
 -- ══════════════════════════════════════════════════════════
+-- HUD Update Loop - Обновление данных игрока
+-- ══════════════════════════════════════════════════════════
+
+Citizen.CreateThread(function()
+    Wait(5000) -- Даем время игре загрузиться
+    
+    while true do
+        Wait(Config.HUD.updateInterval)
+        
+        if isUIReady and hudVisible then
+            local ped = PlayerPedId()
+            
+            -- Здоровье
+            local health = GetEntityHealth(ped)
+            local maxHealth = GetEntityMaxHealth(ped)
+            local healthPercent = math.max(0, ((health - 100) / (maxHealth - 100)) * 100)
+            
+            -- Броня
+            local armour = GetPedArmour(ped)
+            
+            -- Тестовые данные (потом заменить на реальные системы)
+            local data = {
+                health = math.floor(healthPercent),
+                radiation = 0, -- TODO: система радиации
+                weight = 15.0,
+                maxWeight = 50.0,
+                hunger = 85,
+                thirst = 70
+            }
+            
+            UpdateHUD(data)
+        end
+    end
+end)
+
+-- ══════════════════════════════════════════════════════════
 -- HUD управление
 -- ══════════════════════════════════════════════════════════
 
@@ -101,7 +137,18 @@ RegisterNUICallback('close', function(data, cb)
 end)
 
 RegisterNUICallback('playSound', function(data, cb)
-    -- TODO: Проиграть звук через game audio
+    -- Воспроизведение звуков через FiveM API
+    if data.sound == 'notify' then
+        PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+    elseif data.sound == 'error' then
+        PlaySoundFrontend(-1, "ERROR", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+    elseif data.sound == 'click' then
+        PlaySoundFrontend(-1, "CLICK_BACK", "WEB_NAVIGATION_SOUNDS_PHONE", false)
+    elseif data.sound == 'open' then
+        PlaySoundFrontend(-1, "Menu_Accept", "Phone_SoundSet_Default", false)
+    elseif data.sound == 'close' then
+        PlaySoundFrontend(-1, "Menu_Navigate", "DLC_HEIST_PLANNING_BOARD_SOUNDS", false)
+    end
     cb('ok')
 end)
 
