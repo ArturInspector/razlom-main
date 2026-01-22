@@ -158,13 +158,21 @@ AddEventHandler('apo:inventory:useItem', function(itemName)
     
     if not itemData then return end
     
+    local inventory = PlayerInventories[source]
     if hasItem(source, itemName, 1) then
         if itemData.type == 'consume' or itemData.type == 'medical' then
-            -- Логика использования (например, восстановление здоровья)
-            -- TriggerEvent('apo:player:useItem', source, itemName)
-            
             removeItem(source, itemName, 1)
             TriggerClientEvent('apo:ui:notify', source, 'Вы использовали: ' .. itemData.label, 'success')
+        elseif itemData.type == 'weapon' then
+            local meta = inventory and inventory.items[itemName] and inventory.items[itemName].metadata
+            local rarity = meta and meta.rarity or nil
+            local attachments = meta and meta.attachments or {}
+            local ok, err = exports['apo_weapons']:GiveWeapon(source, itemName, rarity, attachments)
+            if ok then
+                TriggerClientEvent('apo:ui:notify', source, 'Оружие экипировано: ' .. itemData.label, 'success')
+            else
+                TriggerClientEvent('apo:ui:notify', source, 'Не удалось экипировать: ' .. (err or 'Ошибка'), 'error')
+            end
         else
             TriggerClientEvent('apo:ui:notify', source, 'Этот предмет нельзя использовать напрямую', 'warning')
         end

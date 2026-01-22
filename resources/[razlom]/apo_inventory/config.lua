@@ -64,6 +64,32 @@ Config.Items = {
         weight = 5.0,
         type = 'fuel',
         description = 'Gasoline, the blood of the machines.'
+    },
+
+    -- Оружие
+    ['weapon_pistol'] = {
+        label = 'Makeshift Pistol',
+        weight = 1.5,
+        type = 'weapon',
+        description = 'A crude but functional handgun.'
+    },
+    ['weapon_smg'] = {
+        label = 'Scrap SMG',
+        weight = 2.4,
+        type = 'weapon',
+        description = 'Lightweight SMG built from scrap.'
+    },
+    ['weapon_assaultrifle'] = {
+        label = 'Rebuilt AR',
+        weight = 3.6,
+        type = 'weapon',
+        description = 'Rusted AR rebuilt for survival.'
+    },
+    ['weapon_pumpshotgun'] = {
+        label = 'Rusty Shotgun',
+        weight = 4.2,
+        type = 'weapon',
+        description = 'Old shotgun that still kicks hard.'
     }
 }
 

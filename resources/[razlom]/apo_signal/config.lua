@@ -22,6 +22,7 @@ Config.NoiseLevel = {
     ["WEAPON_ASSAULTRIFLE"] = 7,
     ["WEAPON_CARBINERIFLE"] = 7,
     ["WEAPON_SPECIALCARBINE"] = 7,
+    ["WEAPON_SMG"] = 6, -- Scrap SMG
     
     -- Снайперские
     ["WEAPON_SNIPERRIFLE"] = 8,
