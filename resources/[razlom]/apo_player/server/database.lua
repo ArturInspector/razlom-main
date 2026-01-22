@@ -9,7 +9,13 @@ function Database.getPlayerByIdentifier(identifier)
 end
 
 function Database.createPlayer(identifier, name)
-    local position = json.encode({x = 0.0, y = 0.0, z = 0.0})
+    local spawn = Config.SpawnPoints and Config.SpawnPoints[1]
+    local position = json.encode({
+        x = spawn and spawn.coords.x or 0.0,
+        y = spawn and spawn.coords.y or 0.0,
+        z = spawn and spawn.coords.z or 0.0,
+        heading = spawn and spawn.heading or 0.0
+    })
     local result = MySQL.insert.await([[
         INSERT INTO apo_players (identifier, name, class, money, health, hunger, thirst, radiation, position)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
