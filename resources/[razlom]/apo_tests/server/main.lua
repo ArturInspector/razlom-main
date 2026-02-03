@@ -51,6 +51,7 @@ end
 RegisterCommand('apotest', function()
     tests = {}
     loadTestFile('tests/inventory.lua')
+    loadTestFile('tests/integration.lua')
     runTests()
 end, true)
 
