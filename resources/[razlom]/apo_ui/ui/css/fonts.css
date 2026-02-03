@@ -1,0 +1,70 @@
+/* ════════════════════════════════════════════════════════════
+   Fonts - Локальные шрифты для sci-fi эстетики
+   ════════════════════════════════════════════════════════════ */
+
+@font-face {
+    font-family: 'Orbitron';
+    src:
+        local('Orbitron'),
+        url('../assets/fonts/Orbitron-Regular.woff2') format('woff2'),
+        url('../assets/fonts/Orbitron-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Orbitron';
+    src:
+        local('Orbitron Medium'),
+        url('../assets/fonts/Orbitron-Medium.woff2') format('woff2'),
+        url('../assets/fonts/Orbitron-Medium.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    src:
+        local('Exo 2'),
+        url('../assets/fonts/Exo2-Regular.woff2') format('woff2'),
+        url('../assets/fonts/Exo2-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    src:
+        local('Exo 2 SemiBold'),
+        url('../assets/fonts/Exo2-SemiBold.woff2') format('woff2'),
+        url('../assets/fonts/Exo2-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src:
+        local('JetBrains Mono'),
+        url('../assets/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('../assets/fonts/JetBrainsMono-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src:
+        local('JetBrains Mono Bold'),
+        url('../assets/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('../assets/fonts/JetBrainsMono-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -4,47 +4,54 @@
 
 :root {
     /* ══════════════════════════════════════════════════════
-       Цвета
+       Цвета — Alien Invasion
        ══════════════════════════════════════════════════════ */
     
-    /* Фон и поверхности */
-    --bg-primary: #0d0d0d;
-    --bg-secondary: #1a1512;
-    --bg-elevated: #241e1a;
-    --bg-overlay: rgba(0, 0, 0, 0.85);
+    /* Фон: глубокий космос */
+    --bg-void: #050508;
+    --bg-primary: #0a0c12;
+    --bg-secondary: #12151f;
+    --bg-elevated: #1a1e2e;
+    --bg-overlay: rgba(5, 5, 8, 0.86);
     
-    /* Акценты */
-    --accent-danger: #912c22;
-    --accent-rust: #7a3a2e;
-    --accent-warning: #c28a4e;
-    --accent-sand: #8c7355;
-    --accent-success: #4d5a3a;
-    --accent-info: #4a5a6e;
-    --accent-chrome: #b0b0b0;
+    /* Акценты: биолюминесценция и сигнал */
+    --accent-toxic: #39ff14;
+    --accent-void: #7b2cbf;
+    --accent-signal: #00f5ff;
+    --accent-danger: #ff073a;
+    --accent-warning: #ff6b35;
+    --accent-chrome: #9ba6b2;
+    
+    /* Threat Level градации */
+    --threat-low: #39ff14;
+    --threat-mid: #ff6b35;
+    --threat-high: #ff073a;
+    --threat-critical: #ff073a;
     
     /* Текст */
-    --text-primary: #d4d4d4;
-    --text-secondary: #8a7b6a;
-    --text-disabled: #4a3f35;
+    --text-primary: #e0e6ed;
+    --text-secondary: #6b7a8f;
+    --text-disabled: #3c4554;
+    --text-glow: rgba(57, 255, 20, 0.85);
     
     /* Границы */
-    --border-color: #3a2e26;
-    --border-accent: #5c4a3e;
-    --border-damaged: 2px solid var(--border-accent);
+    --border-color: #1f2735;
+    --border-accent: #2f3a4d;
+    --border-highlight: #3c9cff;
     
-    /* Градиенты (более грязные) */
-    --gradient-danger: linear-gradient(135deg, #912c22 0%, #5a1a15 100%);
-    --gradient-warning: linear-gradient(135deg, #c28a4e 0%, #8c5a2e 100%);
-    --gradient-dark: linear-gradient(180deg, #1a1512 0%, #0d0d0d 100%);
-    --gradient-metal: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    /* Градиенты */
+    --gradient-danger: linear-gradient(135deg, #ff073a 0%, #7b001c 100%);
+    --gradient-warning: linear-gradient(135deg, #ff6b35 0%, #8c2f12 100%);
+    --gradient-signal: linear-gradient(135deg, #00f5ff 0%, #007b8c 100%);
+    --gradient-void: linear-gradient(180deg, #12151f 0%, #050508 100%);
     
     /* ══════════════════════════════════════════════════════
        Типографика
        ══════════════════════════════════════════════════════ */
     
-    --font-primary: 'Roboto Mono', 'Consolas', monospace;
-    --font-heading: 'Bebas Neue', 'Impact', sans-serif;
-    --font-numbers: 'Roboto Mono', monospace;
+    --font-heading: 'Orbitron', 'Exo 2', 'Rajdhani', sans-serif;
+    --font-primary: 'Exo 2', 'Inter', 'Segoe UI', sans-serif;
+    --font-numbers: 'JetBrains Mono', 'Roboto Mono', 'Consolas', monospace;
     
     --text-xs: 10px;
     --text-sm: 12px;
@@ -67,17 +74,17 @@
        Тени
        ══════════════════════════════════════════════════════ */
     
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.75);
     
     /* ══════════════════════════════════════════════════════
        Переходы
        ══════════════════════════════════════════════════════ */
     
-    --transition-fast: 0.15s ease;
-    --transition-normal: 0.3s ease;
-    --transition-slow: 0.5s ease;
+    --transition-fast: 0.12s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.45s ease;
     
     /* ══════════════════════════════════════════════════════
        Z-индексы
@@ -86,6 +93,7 @@
     --z-hud: 100;
     --z-notifications: 200;
     --z-modal: 300;
-    --z-tooltip: 400;
+    --z-overlay: 400;
+    --z-tooltip: 500;
 }
 
