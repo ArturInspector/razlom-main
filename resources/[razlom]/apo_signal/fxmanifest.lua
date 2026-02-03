@@ -6,6 +6,10 @@ description 'Razlom — Система шума: направленный спа
 author 'Razlom Team'
 version '1.0.0'
 
+dependencies {
+    'apo_mobs'
+}
+
 shared_scripts {
     'config.lua'
 }
