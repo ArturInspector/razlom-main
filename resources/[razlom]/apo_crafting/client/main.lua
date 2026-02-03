@@ -13,6 +13,38 @@ end, false)
 
 RegisterNetEvent('apo:crafting:openMenu')
 AddEventHandler('apo:crafting:openMenu', function(recipes)
-    exports['apo_ui']:OpenMenu('crafting', { recipes = recipes })
+    local uiRecipes = {}
+
+    for name, recipe in pairs(recipes) do
+        local inputs = {}
+        for _, input in ipairs(recipe.inputs) do
+            table.insert(inputs, {
+                item = input.item,
+                count = input.count,
+                label = string.upper((input.item or ''):gsub('_', ' '))
+            })
+        end
+
+        local output = recipe.output or {}
+        local outputLabel = string.upper((output.item or ''):gsub('_', ' '))
+
+        table.insert(uiRecipes, {
+            name = name,
+            label = recipe.label or string.upper((name or ''):gsub('_', ' ')),
+            inputs = inputs,
+            output = {
+                item = output.item,
+                count = output.count or 1,
+                label = outputLabel
+            },
+            time = recipe.time or 0
+        })
+    end
+
+    table.sort(uiRecipes, function(a, b)
+        return a.label < b.label
+    end)
+
+    exports['apo_ui']:OpenMenu('crafting', { recipes = uiRecipes })
 end)
 
