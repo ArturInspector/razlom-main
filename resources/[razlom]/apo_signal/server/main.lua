@@ -22,6 +22,7 @@ RegisterNetEvent('apo:signal:registerNoise', function(coords, weaponHash)
             timestamp = GetGameTimer()
         })
         
+        TriggerEvent('apo:signal:noise', coords, noiseLevel, weaponHash)
         print('[SIGNAL] Шум зарегистрирован: ' .. noiseLevel .. ' на ' .. coords)
     end
 end)
