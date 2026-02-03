@@ -5,6 +5,7 @@
 let config = null;
 let currentMenu = null;
 let selectedItem = null;
+let selectedRecipe = null;
 const DEFAULT_THREAT_MAX = 10;
 
 // ══════════════════════════════════════════════════════════
@@ -178,6 +179,7 @@ function handleNotification(message, type = 'info', duration = 3000) {
 function handleOpenMenu(menuType, data) {
     const container = document.getElementById('modal-container');
     const inventoryMenu = document.getElementById('inventory-menu');
+    const craftingMenu = document.getElementById('crafting-menu');
     const existingDynamic = container.querySelector('.dynamic-modal');
     if (existingDynamic) existingDynamic.remove();
 
@@ -186,10 +188,16 @@ function handleOpenMenu(menuType, data) {
 
     if (menuType === 'inventory') {
         if (inventoryMenu) inventoryMenu.style.display = 'flex';
+        if (craftingMenu) craftingMenu.style.display = 'none';
         renderInventory(data);
+    } else if (menuType === 'crafting') {
+        if (inventoryMenu) inventoryMenu.style.display = 'none';
+        if (craftingMenu) craftingMenu.style.display = 'flex';
+        renderCrafting(data);
     } else {
         // Заглушка для других меню
         if (inventoryMenu) inventoryMenu.style.display = 'none';
+        if (craftingMenu) craftingMenu.style.display = 'none';
 
         const modal = createElement('div', ['modal', 'dynamic-modal']);
         const header = createElement('div', ['modal-header']);
@@ -214,6 +222,8 @@ function handleUpdateMenu(menuType, data) {
     if (currentMenu === menuType) {
         if (menuType === 'inventory') {
             renderInventory(data);
+        } else if (menuType === 'crafting') {
+            renderCrafting(data);
         }
     }
 }
@@ -224,11 +234,13 @@ function handleCloseMenu() {
     
     // Скрываем все подменю
     document.getElementById('inventory-menu').style.display = 'none';
+    document.getElementById('crafting-menu').style.display = 'none';
     const existingDynamic = container.querySelector('.dynamic-modal');
     if (existingDynamic) existingDynamic.remove();
     
     currentMenu = null;
     selectedItem = null;
+    selectedRecipe = null;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -349,6 +361,97 @@ function getItemIcon(itemName) {
         'fuel_can': '⛽'
     };
     return icons[itemName] || '📦';
+}
+
+// ══════════════════════════════════════════════════════════
+// Рендеринг крафта
+// ══════════════════════════════════════════════════════════
+
+function renderCrafting(data) {
+    const menu = document.getElementById('crafting-menu');
+    menu.style.display = 'flex';
+
+    const list = document.getElementById('craft-list');
+    list.innerHTML = '';
+
+    const recipes = data.recipes || [];
+    recipes.forEach(recipe => {
+        const recipeEl = createElement('div', ['crafting-item']);
+        if (selectedRecipe && selectedRecipe.name === recipe.name) {
+            recipeEl.classList.add('active');
+        }
+
+        const titleEl = createElement('div', ['crafting-item-title']);
+        titleEl.textContent = recipe.label.toUpperCase();
+
+        const timeEl = createElement('div', ['crafting-item-time']);
+        timeEl.textContent = `ВРЕМЯ: ${Math.floor((recipe.time || 0) / 1000)}С`;
+
+        recipeEl.appendChild(titleEl);
+        recipeEl.appendChild(timeEl);
+        recipeEl.onclick = () => selectRecipe(recipe);
+        list.appendChild(recipeEl);
+    });
+
+    if (selectedRecipe) {
+        const updatedRecipe = recipes.find(r => r.name === selectedRecipe.name);
+        if (updatedRecipe) {
+            showRecipeDetails(updatedRecipe);
+        } else {
+            selectedRecipe = null;
+            showRecipeDetails(null);
+        }
+    }
+}
+
+function selectRecipe(recipe) {
+    selectedRecipe = recipe;
+    const items = document.querySelectorAll('.crafting-item');
+    items.forEach(el => {
+        if (el.querySelector('.crafting-item-title').textContent === recipe.label.toUpperCase()) {
+            el.classList.add('active');
+        } else {
+            el.classList.remove('active');
+        }
+    });
+    showRecipeDetails(recipe);
+}
+
+function showRecipeDetails(recipe) {
+    const info = document.getElementById('craft-info');
+    info.innerHTML = '';
+
+    if (!recipe) {
+        const empty = createElement('div', ['info-empty']);
+        empty.textContent = 'ВЫБЕРИТЕ РЕЦЕПТ';
+        info.appendChild(empty);
+        return;
+    }
+
+    const title = createElement('div', ['crafting-recipe-title']);
+    title.textContent = recipe.label.toUpperCase();
+
+    const list = createElement('div', ['crafting-recipe-list']);
+    recipe.inputs.forEach(input => {
+        const row = createElement('div', ['crafting-recipe-item']);
+        row.innerHTML = `<span>${input.label}</span><span>x${input.count}</span>`;
+        list.appendChild(row);
+    });
+
+    const output = createElement('div', ['crafting-recipe-item']);
+    output.innerHTML = `<span>${recipe.output.label}</span><span>+${recipe.output.count}</span>`;
+
+    const actions = createElement('div', ['item-actions']);
+    const craftBtn = createElement('button', ['btn', 'btn-primary']);
+    craftBtn.textContent = 'СОБРАТЬ';
+    craftBtn.onclick = () => sendCallback('craftItem', { name: recipe.name });
+
+    actions.appendChild(craftBtn);
+
+    info.appendChild(title);
+    info.appendChild(list);
+    info.appendChild(output);
+    info.appendChild(actions);
 }
 
 // ══════════════════════════════════════════════════════════

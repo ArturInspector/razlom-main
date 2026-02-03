@@ -162,6 +162,11 @@ RegisterNUICallback('dropItem', function(data, cb)
     cb('ok')
 end)
 
+RegisterNUICallback('craftItem', function(data, cb)
+    TriggerServerEvent('apo:crafting:craft', data.name)
+    cb('ok')
+end)
+
 -- ══════════════════════════════════════════════════════════
 -- События
 -- ══════════════════════════════════════════════════════════

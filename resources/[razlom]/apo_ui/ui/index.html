@@ -111,6 +111,27 @@
                 <button class="btn btn-secondary" onclick="sendCallback('close')">ЗАКРЫТЬ [ESC]</button>
             </div>
         </div>
+
+        <div id="crafting-menu" class="crafting-container" style="display: none;">
+            <div class="crafting-header">
+                <div class="crafting-title">FORGE</div>
+                <div class="crafting-subtitle">ПРОТОКОЛ СБОРКИ</div>
+            </div>
+
+            <div class="crafting-main">
+                <div class="crafting-list" id="craft-list">
+                    <!-- Рецепты будут здесь -->
+                </div>
+
+                <div class="crafting-info" id="craft-info">
+                    <div class="info-empty">ВЫБЕРИТЕ РЕЦЕПТ</div>
+                </div>
+            </div>
+
+            <div class="crafting-footer">
+                <button class="btn btn-secondary" onclick="sendCallback('close')">ЗАКРЫТЬ [ESC]</button>
+            </div>
+        </div>
     </div>
     
     <!-- JavaScript -->
