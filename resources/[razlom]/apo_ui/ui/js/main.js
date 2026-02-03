@@ -5,6 +5,7 @@
 let config = null;
 let currentMenu = null;
 let selectedItem = null;
+const DEFAULT_THREAT_MAX = 10;
 
 // ══════════════════════════════════════════════════════════
 // Инициализация
@@ -33,41 +34,115 @@ function handleHUDUpdate(data) {
     if (data.health !== undefined) {
         const healthBar = document.getElementById('health-bar');
         const healthValue = document.getElementById('health-value');
+        const healthCard = document.getElementById('card-health');
         
-        healthBar.style.width = data.health + '%';
+        animateProgressBar(healthBar, data.health);
         healthValue.textContent = Math.round(data.health) + '%';
         
         healthBar.className = 'progress-fill ' + getProgressBarClass(data.health, 'health');
+        healthCard.classList.toggle('critical', data.health < 30);
     }
     
     // Радиация
     if (data.radiation !== undefined) {
         const radiationBar = document.getElementById('radiation-bar');
         const radiationValue = document.getElementById('radiation-value');
+        const radiationCard = document.getElementById('card-radiation');
+        const contamination = document.getElementById('contamination-overlay');
         
-        radiationBar.style.width = data.radiation + '%';
+        animateProgressBar(radiationBar, data.radiation);
         radiationValue.textContent = Math.round(data.radiation) + '%';
         
         radiationBar.className = 'progress-fill ' + getProgressBarClass(data.radiation, 'radiation');
+        const isContaminated = data.radiation > 60;
+        radiationCard.classList.toggle('contaminated', isContaminated);
+        contamination.classList.toggle('active', isContaminated);
     }
     
     // Вес инвентаря
     if (data.weight !== undefined && data.maxWeight !== undefined) {
         const weightValue = document.getElementById('weight-value');
+        const weightCard = document.getElementById('card-weight');
         weightValue.textContent = `${data.weight.toFixed(1)}/${data.maxWeight.toFixed(1)}`;
+        const ratio = data.maxWeight > 0 ? data.weight / data.maxWeight : 0;
+        weightCard.classList.remove('warning', 'critical');
+        if (ratio >= 0.95) {
+            weightCard.classList.add('critical');
+        } else if (ratio >= 0.8) {
+            weightCard.classList.add('warning');
+        }
     }
     
     // Жажда
     if (data.thirst !== undefined) {
         const thirstValue = document.getElementById('thirst-value');
         thirstValue.textContent = Math.round(data.thirst) + '%';
+        const thirstCard = document.getElementById('card-thirst');
+        thirstCard.classList.remove('critical');
+        if (data.thirst < 25) {
+            thirstCard.classList.add('critical');
+        }
     }
     
     // Голод
     if (data.hunger !== undefined) {
         const hungerValue = document.getElementById('hunger-value');
         hungerValue.textContent = Math.round(data.hunger) + '%';
+        const hungerCard = document.getElementById('card-hunger');
+        hungerCard.classList.remove('critical');
+        if (data.hunger < 25) {
+            hungerCard.classList.add('critical');
+        }
     }
+
+    // Уровень угрозы
+    if (data.threat !== undefined || data.threatLevel !== undefined) {
+        const level = data.threat ?? data.threatLevel;
+        const max = data.threatMax ?? data.maxThreat ?? DEFAULT_THREAT_MAX;
+        updateThreat(level, max);
+    }
+}
+
+function updateThreat(level, maxThreat) {
+    const bar = document.getElementById('threat-bar');
+    const fill = document.getElementById('threat-fill');
+    const value = document.getElementById('threat-value');
+    const status = document.getElementById('threat-status');
+
+    const safeMax = Math.max(maxThreat || DEFAULT_THREAT_MAX, 1);
+    const clamped = clamp(level, 0, safeMax);
+    const percent = (clamped / safeMax) * 100;
+
+    fill.style.width = `${percent}%`;
+    value.textContent = `${clamped.toFixed(1)} / ${safeMax}`;
+
+    let state = 'stable';
+    if (clamped >= safeMax * 0.8) {
+        state = 'critical';
+    } else if (clamped >= safeMax * 0.6) {
+        state = 'danger';
+    } else if (clamped >= safeMax * 0.35) {
+        state = 'warning';
+    }
+
+    bar.classList.remove('warning', 'danger', 'critical');
+    if (state !== 'stable') bar.classList.add(state);
+
+    const fillColor = {
+        critical: 'linear-gradient(135deg, #ff073a 0%, #7b001c 100%)',
+        danger: 'linear-gradient(135deg, #ff6b35 0%, #8c2f12 100%)',
+        warning: 'linear-gradient(135deg, #ff6b35 0%, #8c2f12 100%)',
+        stable: 'linear-gradient(135deg, #00f5ff 0%, #007b8c 100%)'
+    };
+    fill.style.background = fillColor[state];
+
+    const labelMap = {
+        critical: 'Critical escalation',
+        danger: 'High activity',
+        warning: 'Elevated signal',
+        stable: 'Low signal'
+    };
+    status.textContent = labelMap[state];
 }
 
 // ══════════════════════════════════════════════════════════
@@ -102,14 +177,21 @@ function handleNotification(message, type = 'info', duration = 3000) {
 
 function handleOpenMenu(menuType, data) {
     const container = document.getElementById('modal-container');
+    const inventoryMenu = document.getElementById('inventory-menu');
+    const existingDynamic = container.querySelector('.dynamic-modal');
+    if (existingDynamic) existingDynamic.remove();
+
     container.style.display = 'flex';
     currentMenu = menuType;
 
     if (menuType === 'inventory') {
+        if (inventoryMenu) inventoryMenu.style.display = 'flex';
         renderInventory(data);
     } else {
         // Заглушка для других меню
-        const modal = createElement('div', ['modal']);
+        if (inventoryMenu) inventoryMenu.style.display = 'none';
+
+        const modal = createElement('div', ['modal', 'dynamic-modal']);
         const header = createElement('div', ['modal-header']);
         header.textContent = menuType.toUpperCase();
         
@@ -124,7 +206,6 @@ function handleOpenMenu(menuType, data) {
         modal.appendChild(content);
         modal.appendChild(closeBtn);
         
-        container.innerHTML = '';
         container.appendChild(modal);
     }
 }
@@ -143,6 +224,8 @@ function handleCloseMenu() {
     
     // Скрываем все подменю
     document.getElementById('inventory-menu').style.display = 'none';
+    const existingDynamic = container.querySelector('.dynamic-modal');
+    if (existingDynamic) existingDynamic.remove();
     
     currentMenu = null;
     selectedItem = null;

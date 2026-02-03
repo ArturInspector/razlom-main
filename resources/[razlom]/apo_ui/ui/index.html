@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mad Max RP - UI</title>
+    <title>RAZLOM - UI</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -15,45 +16,66 @@
     <!-- Эффекты постобработки -->
     <div class="overlay"></div>
     <div class="scanlines"></div>
+    <div id="contamination-overlay" class="contamination-overlay"></div>
     
     <!-- ═══════════════════════════════════════════════════ -->
     <!-- HUD - Основной интерфейс -->
     <!-- ═══════════════════════════════════════════════════ -->
     <div id="hud" class="hud">
-        <!-- Левая панель: Здоровье, Радиация -->
-        <div class="hud-left">
-            <div class="stat-container">
-                <div class="stat-label">HP</div>
-                <div class="progress-bar">
-                    <div class="progress-fill health" id="health-bar" style="width: 100%"></div>
+        <div class="hud-top">
+            <div class="threat-bar" id="threat-bar">
+                <div class="threat-title">THREAT LEVEL</div>
+                <div class="threat-meter">
+                    <div class="threat-fill" id="threat-fill" style="width: 0%"></div>
+                    <div class="threat-value" id="threat-value">0 / 10</div>
                 </div>
-                <div class="stat-value" id="health-value">100%</div>
-            </div>
-            
-            <div class="stat-container">
-                <div class="stat-label">RAD</div>
-                <div class="progress-bar">
-                    <div class="progress-fill radiation" id="radiation-bar" style="width: 0%"></div>
-                </div>
-                <div class="stat-value" id="radiation-value">0%</div>
+                <div class="threat-status" id="threat-status">Low signal</div>
             </div>
         </div>
         
-        <!-- Правая панель: Статы -->
-        <div class="hud-right">
-            <div class="stat-icon-container">
-                <span class="stat-icon">🎒</span>
-                <span class="stat-text" id="weight-value">0/50</span>
+        <div class="hud-main">
+            <!-- Левая панель -->
+            <div class="hud-left">
+                <div class="stat-card" id="card-health">
+                    <div class="stat-header">
+                        <img class="stat-icon" src="assets/images/icon-health.svg" alt="Health">
+                        <div class="stat-label">HEALTH</div>
+                        <div class="stat-number" id="health-value">100%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill health" id="health-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card" id="card-radiation">
+                    <div class="stat-header">
+                        <img class="stat-icon" src="assets/images/icon-radiation.svg" alt="Radiation">
+                        <div class="stat-label">RADIATION</div>
+                        <div class="stat-number" id="radiation-value">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill radiation" id="radiation-bar" style="width: 0%"></div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="stat-icon-container">
-                <span class="stat-icon">💧</span>
-                <span class="stat-text" id="thirst-value">100%</span>
-            </div>
-            
-            <div class="stat-icon-container">
-                <span class="stat-icon">🍖</span>
-                <span class="stat-text" id="hunger-value">100%</span>
+
+            <!-- Правая панель -->
+            <div class="hud-right">
+                <div class="mini-card" id="card-weight">
+                    <img class="stat-icon" src="assets/images/icon-inventory.svg" alt="Inventory">
+                    <div class="mini-label">CARRY</div>
+                    <div class="mini-value" id="weight-value">0/50</div>
+                </div>
+                <div class="mini-card" id="card-thirst">
+                    <img class="stat-icon" src="assets/images/icon-thirst.svg" alt="Thirst">
+                    <div class="mini-label">HYDRATION</div>
+                    <div class="mini-value" id="thirst-value">100%</div>
+                </div>
+                <div class="mini-card" id="card-hunger">
+                    <img class="stat-icon" src="assets/images/icon-hunger.svg" alt="Hunger">
+                    <div class="mini-label">NUTRITION</div>
+                    <div class="mini-value" id="hunger-value">100%</div>
+                </div>
             </div>
         </div>
     </div>
@@ -70,7 +92,7 @@
         <!-- Динамически генерируемые меню -->
         <div id="inventory-menu" class="inventory-container" style="display: none;">
             <div class="inventory-header">
-                <div class="inventory-title">РЮКЗАК ВЫЖИВШЕГО</div>
+                <div class="inventory-title">RIFT PACK</div>
                 <div class="inventory-weight" id="inv-weight-text">ВЕС: 0.0/50.0 кг</div>
             </div>
             
