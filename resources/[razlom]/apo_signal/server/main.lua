@@ -85,10 +85,13 @@ end
 
 -- Направленный спавн мобов
 function SpawnDirected(coords, noiseLevel)
-    -- TODO: интеграция с apo_mobs
-    -- 70% мобов спавнятся направленно к источнику шума
-    -- 30% случайно вокруг
-    print('[SIGNAL] Спавн мобов к точке: ' .. coords .. ', уровень шума: ' .. noiseLevel)
+    local roll = math.random()
+    if roll <= Config.Heatmap.directed_chance then
+        exports['apo_mobs']:SpawnDirected(coords, noiseLevel)
+    else
+        local offset = vector3(math.random(-60, 60), math.random(-60, 60), 0.0)
+        exports['apo_mobs']:SpawnDirected(coords + offset, noiseLevel)
+    end
 end
 
 exports('RegisterNoise', function(coords, weaponHash)
