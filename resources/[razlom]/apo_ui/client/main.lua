@@ -167,6 +167,21 @@ RegisterNUICallback('craftItem', function(data, cb)
     cb('ok')
 end)
 
+RegisterNUICallback('shopBuy', function(data, cb)
+    TriggerServerEvent('apo:economy:buyItem', data.item, data.count or 1)
+    cb('ok')
+end)
+
+RegisterNUICallback('shopSell', function(data, cb)
+    TriggerServerEvent('apo:economy:sellItem', data.item, data.count or 1)
+    cb('ok')
+end)
+
+RegisterNUICallback('factionSelect', function(data, cb)
+    TriggerServerEvent('apo:reputation:chooseFaction', data.id)
+    cb('ok')
+end)
+
 -- ══════════════════════════════════════════════════════════
 -- События
 -- ══════════════════════════════════════════════════════════

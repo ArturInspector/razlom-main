@@ -57,6 +57,18 @@ Config.Items = {
         type = 'material',
         description = 'Components from old devices.'
     },
+    ['credits'] = {
+        label = 'Credits',
+        weight = 0.0,
+        type = 'currency',
+        description = 'Exchange tokens used in the colony.'
+    },
+    ['ammo_pistol'] = {
+        label = 'Pistol Ammo',
+        weight = 0.02,
+        type = 'ammo',
+        description = 'Standard pistol ammunition.'
+    },
 
     -- Топливо
     ['fuel_can'] = {

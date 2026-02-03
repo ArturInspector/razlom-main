@@ -45,7 +45,7 @@ CreateThread(function()
                     end
                 end
 
-                TriggerEvent('apo:mobs:died', mobId, killerSource)
+                TriggerEvent('apo:mobs:died', mobId, killerSource, mob.archetype)
                 Mobs.Despawn(mobId)
             end
 

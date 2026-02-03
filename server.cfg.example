@@ -31,7 +31,11 @@ ensure hardcap
 ## Razlom ресурсы
 ensure oxmysql
 ensure apo_ui
+ensure apo_zones
 ensure apo_invasion
+ensure apo_economy
+ensure apo_reputation
+ensure apo_tutorial
 ensure apo_progression
 ensure apo_signal
 

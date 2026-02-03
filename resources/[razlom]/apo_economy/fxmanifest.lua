@@ -1,17 +1,16 @@
 fx_version 'cerulean'
 game 'gta5'
 
-name 'apo_invasion'
-description 'Razlom — Система вторжения: волны, узлы, эскалация'
+name 'apo_economy'
+description 'Razlom — Базовая экономика и магазин'
 author 'Razlom Team'
 version '1.0.0'
 
 dependencies {
     'apo_core',
-    'apo_mobs',
     'apo_ui',
     'apo_inventory',
-    'apo_progression',
+    'apo_invasion',
     'apo_reputation'
 }
 
@@ -26,4 +25,6 @@ server_scripts {
 client_scripts {
     'client/main.lua'
 }
+
+lua54 'yes'
 

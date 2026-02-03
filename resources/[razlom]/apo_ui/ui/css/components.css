@@ -56,7 +56,16 @@
 .hud-top {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
     margin-bottom: 12px;
+}
+
+.hud-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: auto;
 }
 
 .hud-main {
@@ -159,6 +168,98 @@
 .threat-bar.critical {
     border-top-color: var(--threat-critical);
     animation: threatEscalation 1.2s infinite;
+}
+
+/* Zone status */
+.zone-status {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-accent);
+    padding: 12px 16px;
+    min-width: 200px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: grid;
+    gap: 6px;
+}
+
+.zone-label {
+    font-family: var(--font-heading);
+    letter-spacing: 3px;
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+}
+
+.zone-name {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--accent-signal);
+    letter-spacing: 2px;
+}
+
+.zone-meta {
+    font-family: var(--font-numbers);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.zone-status.danger {
+    border-color: var(--threat-high);
+    box-shadow: 0 0 16px rgba(255, 7, 58, 0.2);
+}
+
+/* Capture status */
+.capture-status {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-accent);
+    padding: 12px 16px;
+    min-width: 240px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: grid;
+    gap: 6px;
+}
+
+.capture-title {
+    font-family: var(--font-heading);
+    letter-spacing: 3px;
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+}
+
+.capture-name {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    letter-spacing: 2px;
+}
+
+.capture-meter {
+    position: relative;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    height: 18px;
+    overflow: hidden;
+}
+
+.capture-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gradient-danger);
+    transition: width var(--transition-normal);
+}
+
+.capture-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-numbers);
+    font-size: var(--text-xs);
+}
+
+.capture-meta {
+    font-family: var(--font-numbers);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
 }
 
 /* Стат-карточки */
@@ -364,6 +465,46 @@
     border: 1px solid var(--border-color);
     padding: 12px;
     white-space: pre-wrap;
+}
+
+.shop-currency {
+    font-family: var(--font-numbers);
+    color: var(--text-primary);
+    letter-spacing: 2px;
+}
+
+.shop-list,
+.faction-list {
+    display: grid;
+    gap: 12px;
+}
+
+.shop-item,
+.faction-item {
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    padding: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.shop-item-label,
+.faction-label {
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+    color: var(--accent-signal);
+}
+
+.shop-item-price,
+.faction-desc {
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.shop-actions {
+    display: flex;
+    gap: 10px;
 }
 
 /* Инвентарь */

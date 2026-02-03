@@ -15,15 +15,14 @@ function LoadPlayerProgression(source)
     }
 end
 
--- Начислить XP
-RegisterNetEvent('apo:progression:addXP', function(amount, reason)
-    local source = source
+local function addXPFor(source, amount, reason)
+    if not source then return end
     if not playerData[source] then
         LoadPlayerProgression(source)
     end
-    
+
     playerData[source].xp = playerData[source].xp + amount
-    
+
     -- Проверка повышения ранга
     local newRank = GetRankByXP(playerData[source].xp)
     if newRank > playerData[source].rank then
@@ -31,9 +30,14 @@ RegisterNetEvent('apo:progression:addXP', function(amount, reason)
         TriggerClientEvent('apo:progression:rankUp', source, newRank)
         print('[PROGRESSION] Игрок ' .. source .. ' повысился до ранга ' .. newRank)
     end
-    
+
     TriggerClientEvent('apo:progression:xpGained', source, amount, reason)
     -- TODO: сохранение в БД
+end
+
+-- Начислить XP
+RegisterNetEvent('apo:progression:addXP', function(amount, reason)
+    addXPFor(source, amount, reason)
 end)
 
 -- Получить ранг по XP
@@ -69,7 +73,7 @@ function GetScaling(playerList)
 end
 
 exports('AddXP', function(source, amount, reason)
-    TriggerEvent('apo:progression:addXP', amount, reason)
+    addXPFor(source, amount, reason)
 end)
 
 exports('GetScaling', GetScaling)

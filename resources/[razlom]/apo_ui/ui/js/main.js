@@ -102,6 +102,16 @@ function handleHUDUpdate(data) {
         const max = data.threatMax ?? data.maxThreat ?? DEFAULT_THREAT_MAX;
         updateThreat(level, max);
     }
+
+    // Зона
+    if (data.zone !== undefined) {
+        updateZone(data.zone);
+    }
+
+    // Захват узла
+    if (data.capture !== undefined) {
+        updateCapture(data.capture);
+    }
 }
 
 function updateThreat(level, maxThreat) {
@@ -144,6 +154,48 @@ function updateThreat(level, maxThreat) {
         stable: 'Low signal'
     };
     status.textContent = labelMap[state];
+}
+
+function updateZone(zone) {
+    const zoneEl = document.getElementById('zone-status');
+    const nameEl = document.getElementById('zone-name');
+    const metaEl = document.getElementById('zone-meta');
+
+    if (!zone || !nameEl || !metaEl) return;
+
+    nameEl.textContent = (zone.name || 'UNKNOWN').toUpperCase();
+
+    const danger = zone.dangerous ? 'DANGER' : 'SAFE';
+    const bonus = zone.threat_bonus ? `+${zone.threat_bonus} THREAT` : '';
+    const type = zone.type ? zone.type.toUpperCase() : '';
+    metaEl.textContent = [danger, type, bonus].filter(Boolean).join(' • ');
+
+    zoneEl.classList.toggle('danger', !!zone.dangerous);
+}
+
+function updateCapture(capture) {
+    const container = document.getElementById('capture-status');
+    if (!container) return;
+
+    if (!capture.active) {
+        container.classList.add('hidden');
+        return;
+    }
+
+    container.classList.remove('hidden');
+    const nameEl = document.getElementById('capture-name');
+    const fillEl = document.getElementById('capture-fill');
+    const valueEl = document.getElementById('capture-value');
+    const metaEl = document.getElementById('capture-meta');
+
+    const progress = clamp(capture.progress || 0, 0, 100);
+    if (nameEl) nameEl.textContent = (capture.label || 'NODE').toUpperCase();
+    if (fillEl) fillEl.style.width = `${progress}%`;
+    if (valueEl) valueEl.textContent = `${progress}%`;
+
+    const waves = capture.wavesLeft !== undefined ? `WAVES: ${capture.wavesLeft}` : '';
+    const time = capture.timeLeft !== undefined ? `TIME: ${capture.timeLeft}s` : '';
+    if (metaEl) metaEl.textContent = [waves, time].filter(Boolean).join(' • ');
 }
 
 // ══════════════════════════════════════════════════════════
@@ -194,6 +246,14 @@ function handleOpenMenu(menuType, data) {
         if (inventoryMenu) inventoryMenu.style.display = 'none';
         if (craftingMenu) craftingMenu.style.display = 'flex';
         renderCrafting(data);
+    } else if (menuType === 'shop') {
+        if (inventoryMenu) inventoryMenu.style.display = 'none';
+        if (craftingMenu) craftingMenu.style.display = 'none';
+        renderShop(data);
+    } else if (menuType === 'faction') {
+        if (inventoryMenu) inventoryMenu.style.display = 'none';
+        if (craftingMenu) craftingMenu.style.display = 'none';
+        renderFaction(data);
     } else {
         // Заглушка для других меню
         if (inventoryMenu) inventoryMenu.style.display = 'none';
@@ -224,6 +284,10 @@ function handleUpdateMenu(menuType, data) {
             renderInventory(data);
         } else if (menuType === 'crafting') {
             renderCrafting(data);
+        } else if (menuType === 'shop') {
+            renderShop(data);
+        } else if (menuType === 'faction') {
+            renderFaction(data);
         }
     }
 }
@@ -241,6 +305,96 @@ function handleCloseMenu() {
     currentMenu = null;
     selectedItem = null;
     selectedRecipe = null;
+}
+
+function renderShop(data) {
+    const container = document.getElementById('modal-container');
+    const existing = container.querySelector('.dynamic-modal');
+    if (existing) existing.remove();
+
+    const modal = createElement('div', ['modal', 'dynamic-modal', 'shop-modal']);
+    const header = createElement('div', ['modal-header']);
+    header.textContent = 'COLONY EXCHANGE';
+
+    const currency = createElement('div', ['shop-currency']);
+    currency.textContent = `CREDITS: ${data.currency || 0}`;
+
+    const list = createElement('div', ['shop-list']);
+    (data.items || []).forEach(item => {
+        const row = createElement('div', ['shop-item']);
+        const label = createElement('div', ['shop-item-label']);
+        label.textContent = item.label;
+
+        const price = createElement('div', ['shop-item-price']);
+        price.textContent = `BUY: ${item.price} / SELL: ${item.sellPrice}`;
+
+        const actions = createElement('div', ['shop-actions']);
+        const buyBtn = createElement('button', ['btn', 'btn-primary']);
+        buyBtn.textContent = 'КУПИТЬ';
+        buyBtn.onclick = () => sendCallback('shopBuy', { item: item.name, count: 1 });
+
+        const sellBtn = createElement('button', ['btn', 'btn-secondary']);
+        sellBtn.textContent = 'ПРОДАТЬ';
+        sellBtn.onclick = () => sendCallback('shopSell', { item: item.name, count: 1 });
+
+        actions.appendChild(buyBtn);
+        actions.appendChild(sellBtn);
+
+        row.appendChild(label);
+        row.appendChild(price);
+        row.appendChild(actions);
+        list.appendChild(row);
+    });
+
+    const closeBtn = createElement('button', ['btn', 'btn-secondary']);
+    closeBtn.textContent = 'ЗАКРЫТЬ';
+    closeBtn.onclick = () => sendCallback('close');
+
+    modal.appendChild(header);
+    modal.appendChild(currency);
+    modal.appendChild(list);
+    modal.appendChild(closeBtn);
+
+    container.appendChild(modal);
+}
+
+function renderFaction(data) {
+    const container = document.getElementById('modal-container');
+    const existing = container.querySelector('.dynamic-modal');
+    if (existing) existing.remove();
+
+    const modal = createElement('div', ['modal', 'dynamic-modal', 'faction-modal']);
+    const header = createElement('div', ['modal-header']);
+    header.textContent = 'FACTION CHOICE';
+
+    const list = createElement('div', ['faction-list']);
+    (data.factions || []).forEach(faction => {
+        const row = createElement('div', ['faction-item']);
+        const label = createElement('div', ['faction-label']);
+        label.textContent = faction.label;
+
+        const desc = createElement('div', ['faction-desc']);
+        desc.textContent = faction.bonus;
+
+        const chooseBtn = createElement('button', ['btn', 'btn-primary']);
+        chooseBtn.textContent = 'ВЫБРАТЬ';
+        chooseBtn.onclick = () => sendCallback('factionSelect', { id: faction.id });
+
+        row.appendChild(label);
+        row.appendChild(desc);
+        row.appendChild(chooseBtn);
+        list.appendChild(row);
+    });
+
+    const closeBtn = createElement('button', ['btn', 'btn-secondary']);
+    closeBtn.textContent = 'ЗАКРЫТЬ';
+    closeBtn.onclick = () => sendCallback('close');
+
+    modal.appendChild(header);
+    modal.appendChild(list);
+    modal.appendChild(closeBtn);
+
+    container.appendChild(modal);
 }
 
 // ══════════════════════════════════════════════════════════
