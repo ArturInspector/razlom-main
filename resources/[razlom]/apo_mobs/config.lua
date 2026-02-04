@@ -84,6 +84,11 @@ Config.Director = {
         hotspot = 30000,
         wave = 60000
     },
+    notifications = {
+        ambient = { message = 'Разведгруппа противника движется к вам', type = 'warning' },
+        hotspot = { message = 'Высокая активность роя — готовьтесь к бою', type = 'error' },
+        wave = { message = 'Волна противника направлена на вашу позицию', type = 'error' }
+    },
     debug = false
 }
 

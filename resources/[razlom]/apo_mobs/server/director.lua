@@ -5,6 +5,11 @@ Mobs.Director = Mobs.Director or {}
 local lastActionAt = 0
 local lastEventAt = {}
 
+local function notify(target, message, messageType, duration)
+    if not target or target == 0 then return end
+    TriggerClientEvent('apo:ui:notify', target, message, messageType or 'info', duration)
+end
+
 local function logDebug(message)
     if Config.Director and Config.Director.debug then
         print('[MOBS][DIRECTOR] ' .. message)
@@ -85,6 +90,11 @@ local function spawnAmbientGroup(targetSource)
         end
         Mobs.Spawn(coords, pick, 1, targetSource)
     end
+
+    local note = Config.Director.notifications and Config.Director.notifications.ambient
+    if note then
+        notify(targetSource, note.message, note.type)
+    end
 end
 
 local function spawnHotspotGroup(hotspot)
@@ -94,12 +104,23 @@ local function spawnHotspotGroup(hotspot)
     for _ = 1, spawns do
         Mobs.SpawnDirected(hotspot.coords, hotspot.level or 0)
     end
+
+    local note = Config.Director.notifications and Config.Director.notifications.hotspot
+    if note then
+        for _, player in ipairs(GetPlayers()) do
+            notify(player, note.message, note.type)
+        end
+    end
 end
 
 local function startThreatWave(coords, threat, targetSource)
     if GetResourceState('apo_invasion') == 'started' then
         local tier = math.min(3, 1 + math.floor((threat or 0) / 4))
         exports['apo_invasion']:StartWave(coords, tier, targetSource)
+        local note = Config.Director.notifications and Config.Director.notifications.wave
+        if note then
+            notify(targetSource, note.message, note.type)
+        end
         return true
     end
     return false
