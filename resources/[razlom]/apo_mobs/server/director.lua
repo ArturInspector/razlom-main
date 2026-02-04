@@ -95,6 +95,8 @@ local function spawnAmbientGroup(targetSource)
     if note then
         notify(targetSource, note.message, note.type)
     end
+    
+    TriggerClientEvent('apo:director:ambientSpawn', targetSource, { count = count })
 end
 
 local function spawnHotspotGroup(hotspot)
@@ -109,6 +111,16 @@ local function spawnHotspotGroup(hotspot)
     if note then
         for _, player in ipairs(GetPlayers()) do
             notify(player, note.message, note.type)
+        end
+    end
+    
+    for _, source in ipairs(GetPlayers()) do
+        local ped = GetPlayerPed(source)
+        if ped and ped ~= 0 then
+            local playerCoords = GetEntityCoords(ped)
+            if #(playerCoords - hotspot.coords) < 200 then
+                TriggerClientEvent('apo:director:hotspotSpawn', source, { level = hotspot.level })
+            end
         end
     end
 end

@@ -206,6 +206,52 @@ AddEventHandler('apo:ui:toggleHUD', function(visible)
 end)
 
 -- ══════════════════════════════════════════════════════════
+-- Director события
+-- ══════════════════════════════════════════════════════════
+
+RegisterNetEvent('apo:director:ambientSpawn')
+AddEventHandler('apo:director:ambientSpawn', function(data)
+    ShowNotification('Обнаружена враждебная активность поблизости', 'warning', 4000)
+    SendNUIMessage({
+        action = 'showAlert',
+        alertType = 'ambient',
+        title = 'HOSTILE PRESENCE',
+        message = 'Anomalous activity detected',
+        duration = 4000
+    })
+    PlaySoundFrontend(-1, "TIMER_STOP", "HUD_MINI_GAME_SOUNDSET", false)
+end)
+
+RegisterNetEvent('apo:director:hotspotSpawn')
+AddEventHandler('apo:director:hotspotSpawn', function(data)
+    local level = data.level or 0
+    ShowNotification(('Высокая концентрация сигнала: %d единиц'):format(level), 'warning', 5000)
+    SendNUIMessage({
+        action = 'showAlert',
+        alertType = 'hotspot',
+        title = 'SIGNAL SURGE',
+        message = ('Hotspot level: %d units'):format(level),
+        duration = 5000
+    })
+    PlaySoundFrontend(-1, "HACKING_SUCCESS", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+end)
+
+RegisterNetEvent('apo:director:waveIncoming')
+AddEventHandler('apo:director:waveIncoming', function(data)
+    local tier = data.tier or 1
+    ShowNotification(('ВНИМАНИЕ: Приближается волна угрозы Tier %d'):format(tier), 'error', 6000)
+    SendNUIMessage({
+        action = 'showAlert',
+        alertType = 'wave',
+        title = 'INCOMING WAVE',
+        message = ('Threat tier %d approaching'):format(tier),
+        duration = 6000,
+        critical = tier >= 3
+    })
+    PlaySoundFrontend(-1, "Bomb_Disarmed", "GTAO_Speed_Convoy_Soundset", false)
+end)
+
+-- ══════════════════════════════════════════════════════════
 -- Экспорты
 -- ══════════════════════════════════════════════════════════
 

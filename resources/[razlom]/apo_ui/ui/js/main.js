@@ -225,6 +225,53 @@ function handleNotification(message, type = 'info', duration = 3000) {
 }
 
 // ══════════════════════════════════════════════════════════
+// Алерты Director
+// ══════════════════════════════════════════════════════════
+
+function handleAlert(alertType, title, message, duration = 5000, critical = false) {
+    const container = document.getElementById('alert-container');
+    if (!container) return;
+    
+    const alert = createElement('div', ['director-alert', alertType]);
+    if (critical) alert.classList.add('critical');
+    
+    const iconEl = createElement('div', ['alert-icon']);
+    iconEl.textContent = getAlertIcon(alertType);
+    
+    const contentEl = createElement('div', ['alert-content']);
+    
+    const titleEl = createElement('div', ['alert-title']);
+    titleEl.textContent = title;
+    
+    const messageEl = createElement('div', ['alert-message']);
+    messageEl.textContent = message;
+    
+    contentEl.appendChild(titleEl);
+    contentEl.appendChild(messageEl);
+    
+    alert.appendChild(iconEl);
+    alert.appendChild(contentEl);
+    
+    container.appendChild(alert);
+    
+    setTimeout(() => {
+        alert.classList.add('fade-out');
+        setTimeout(() => {
+            alert.remove();
+        }, 400);
+    }, duration);
+}
+
+function getAlertIcon(alertType) {
+    const icons = {
+        'ambient': '⚠️',
+        'hotspot': '🔥',
+        'wave': '☠️'
+    };
+    return icons[alertType] || '⚠️';
+}
+
+// ══════════════════════════════════════════════════════════
 // Модальные окна (Инвентарь и др.)
 // ══════════════════════════════════════════════════════════
 

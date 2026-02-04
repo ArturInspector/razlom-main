@@ -61,6 +61,10 @@ window.addEventListener('message', function(event) {
             handleNotification(data.message, data.type, data.duration);
             break;
             
+        case 'showAlert':
+            handleAlert(data.alertType, data.title, data.message, data.duration, data.critical);
+            break;
+            
         case 'openMenu':
             handleOpenMenu(data.menuType, data.data);
             break;

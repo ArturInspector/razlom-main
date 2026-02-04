@@ -29,6 +29,7 @@ end)
 -- Начало волны
 RegisterNetEvent('apo:invasion:waveStart', function(coords, tier)
     TriggerEvent('apo:ui:notify', ('Волна вторжения: Tier %d'):format(tier), 'warning')
+    TriggerEvent('apo:director:waveIncoming', { tier = tier })
     print('[INVASION] Волна начинается! Tier: ' .. tier)
 end)
 
