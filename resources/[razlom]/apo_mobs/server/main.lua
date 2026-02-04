@@ -3,6 +3,7 @@ Mobs = Mobs or {}
 require 'server.spawn'
 require 'server.ai'
 require 'server.combat'
+require 'server.director'
 
 exports('Spawn', function(coords, archetype, tier, targetSource)
     return Mobs.Spawn(coords, archetype, tier, targetSource)
@@ -21,4 +22,7 @@ exports('GetAliveCount', function()
 end)
 
 print('[MOBS] apo_mobs initialized')
+
+
+
 

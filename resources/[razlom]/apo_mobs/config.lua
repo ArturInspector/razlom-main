@@ -18,6 +18,13 @@ Config.Archetypes = {
         speed = 1.5,
         behavior = 'rush'
     },
+    stalker = {
+        model = 'a_m_y_methhead_01',
+        health = 140,
+        damage = 14,
+        speed = 1.2,
+        behavior = 'flank'
+    },
     tank = {
         model = 'a_m_y_army_01',
         health = 500,
@@ -25,6 +32,14 @@ Config.Archetypes = {
         speed = 0.8,
         armor = 50,
         behavior = 'advance'
+    },
+    elite = {
+        model = 's_m_y_swat_01',
+        health = 900,
+        damage = 45,
+        speed = 1.0,
+        armor = 100,
+        behavior = 'pressure'
     }
 }
 
@@ -35,9 +50,40 @@ Config.LootTables = {
         { item = 'canned_food', min = 1, max = 1, chance = 0.2 },
         { item = 'scrap_metal', min = 1, max = 2, chance = 0.1 }
     },
+    stalker = {
+        { item = 'bandage', min = 1, max = 2, chance = 0.25 },
+        { item = 'canned_food', min = 1, max = 2, chance = 0.25 },
+        { item = 'scrap_metal', min = 1, max = 3, chance = 0.2 }
+    },
     tank = {
         { item = 'scrap_metal', min = 2, max = 4, chance = 0.6 },
         { item = 'bandage', min = 1, max = 2, chance = 0.2 }
+    },
+    elite = {
+        { item = 'scrap_metal', min = 3, max = 6, chance = 0.7 },
+        { item = 'electronic_parts', min = 1, max = 2, chance = 0.35 },
+        { item = 'bandage', min = 1, max = 2, chance = 0.25 }
     }
+}
+
+Config.Director = {
+    enabled = true,
+    tick_ms = 10000,
+    base_chance = 0.35,
+    global_cooldown_ms = 30000,
+    min_players = 1,
+    max_alive_soft = 24,
+    hotspot_min_level = 20,
+    hotspot_max_spawns = 4,
+    wave_threat_min = 4,
+    ambient_spawns = { min = 2, max = 4 },
+    ambient_archetypes = { 'runner', 'stalker' },
+    elite_spawn_chance = 0.1,
+    event_cooldowns = {
+        ambient = 20000,
+        hotspot = 30000,
+        wave = 60000
+    },
+    debug = false
 }
 
