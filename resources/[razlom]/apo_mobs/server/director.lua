@@ -199,6 +199,7 @@ local function spawnAmbientGroup(targetSource)
         end
         
         TriggerClientEvent('apo:director:ambientSpawn', targetSource, { 
+            coords = spawnCoords,
             count = #scenario.composition,
             scenario = scenario.name
         })
@@ -219,7 +220,10 @@ local function spawnAmbientGroup(targetSource)
             notify(targetSource, note.message, note.type)
         end
         
-        TriggerClientEvent('apo:director:ambientSpawn', targetSource, { count = count })
+        TriggerClientEvent('apo:director:ambientSpawn', targetSource, { 
+            coords = coords,
+            count = count 
+        })
     end
 end
 
@@ -252,6 +256,7 @@ local function spawnHotspotGroup(hotspot)
                         msg = string.format(msg, level)
                     end
                     TriggerClientEvent('apo:director:hotspotSpawn', source, { 
+                        coords = hotspot.coords,
                         level = level,
                         scenario = scenario.name
                     })
@@ -277,7 +282,10 @@ local function spawnHotspotGroup(hotspot)
             if ped and ped ~= 0 then
                 local playerCoords = GetEntityCoords(ped)
                 if #(playerCoords - hotspot.coords) < 200 then
-                    TriggerClientEvent('apo:director:hotspotSpawn', source, { level = level })
+                    TriggerClientEvent('apo:director:hotspotSpawn', source, { 
+                        coords = hotspot.coords,
+                        level = level 
+                    })
                 end
             end
         end

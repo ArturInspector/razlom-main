@@ -92,3 +92,31 @@ Config.Director = {
     debug = false
 }
 
+-- Визуальные настройки маркеров
+Config.Markers = {
+    enabled = true,
+    update_interval = 0, -- 0 = каждый кадр (для плавности)
+    hotspot = {
+        draw_distance = 150.0,
+        marker_type = 1,
+        color = { r = 255, g = 0, b = 0 },
+        scale = { min = 1.0, max = 3.0 },
+        lifetime_ms = 300000 -- 5 минут
+    },
+    wave = {
+        draw_distance = 200.0,
+        marker_type = 1,
+        color = { r = 255, g = 107, b = 53 },
+        scale = { min = 2.0, max = 5.0 },
+        lifetime_ms = 600000 -- 10 минут
+    },
+    ambient = {
+        draw_distance = 100.0,
+        marker_type = 28,
+        color = { r = 255, g = 255, b = 0 },
+        scale = { min = 0.8, max = 2.0 },
+        lifetime_ms = 180000, -- 3 минуты
+        fade_after_ms = 60000 -- Начинать затухать после 1 минуты
+    }
+}
+
