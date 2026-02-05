@@ -12,7 +12,8 @@ dependencies {
 }
 
 shared_scripts {
-    'config.lua'
+    'config.lua',
+    'config_scenarios.lua'
 }
 
 server_scripts {
@@ -20,4 +21,8 @@ server_scripts {
 }
 
 lua54 'yes'
+
+
+
+
 
